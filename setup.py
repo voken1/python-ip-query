@@ -8,7 +8,7 @@ with open('README.md', 'r') as f:
 
 setup(
     name="ip-query",
-    version="3.1.9",
+    version="3.2.0",
     packages=find_packages(),
 
     # metadata for upload to PyPI
@@ -30,5 +30,6 @@ setup(
     install_requires=[
         'requests[socks]',
         'geoip2',
+        'terminal-print',
     ],
 )

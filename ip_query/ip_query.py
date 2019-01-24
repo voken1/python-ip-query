@@ -4,6 +4,8 @@
 import os
 import requests
 import geoip2.database
+import terminal_print as tp
+
 
 # ip dict format
 IP_DICT = {
@@ -102,11 +104,11 @@ def requests_get_json(url: str, requests_proxies: dict = None, timeout: int = TI
         if 200 == resp.status_code:
             return resp.json()
         else:
-            print('Error [ip-query] requests.status_code: {}'.format(resp.status_code))
+            tp.error('[ip-query] requests.status_code: {}'.format(resp.status_code))
             return None
 
     except Exception as e:
-        print('Error [ip-query] {}'.format(e))
+        tp.error('[ip-query] {}'.format(e))
         return None
 
 
@@ -139,5 +141,5 @@ def geoip(ip_address):
         return data
 
     except Exception as e:
-        print('Error [ip-query] geoip: {}'.format(e))
+        tp.error('[ip-query] geoip: {}'.format(e))
         return None
