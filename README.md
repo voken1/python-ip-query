@@ -7,22 +7,22 @@ IP Query, allow proxy.
 
 ## Installation
 
-```console
+``` console
 $ pip3 install ip-query
 ```
 
 
 ## Usage
 
-```python
+``` python
 from ip_query import ip_query
 
 ip = ip_query()
 ```
 
-you will get:
+you will get the result like this:
 
-```text
+``` json
 {
     'ip': '112.118.6.224',
     'country': 'Hong Kong',
@@ -34,7 +34,7 @@ you will get:
 
 Behind a socks5 proxy? use like this:
 
-```python
+``` python
 from ip_query import ip_query
 
 ip = ip_query(
