@@ -1,4 +1,4 @@
-# Python: IP Query.
+# Python: IP Query
 
 [![PyPi Version](http://img.shields.io/pypi/v/ip-query.svg)](https://pypi.python.org/pypi/ip-query/)
 
@@ -22,7 +22,7 @@ ip = ip_query()
 
 you will get the result like this:
 
-``` json
+``` text
 {
     'ip': '112.118.6.224',
     'country': 'Hong Kong',
