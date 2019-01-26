@@ -8,14 +8,14 @@ with open('README.md', 'r') as f:
 
 setup(
     name="ip-query",
-    version="3.2.0",
+    version="4.1.0",
     packages=find_packages(),
 
     # metadata for upload to PyPI
     author="Vision Network",
     author_email="michael@vision.network",
     description="Python IP Query.",
-    keywords='Python, IP, IP address, IP GEO',
+    keywords='IP, IP address, IP GEO',
 
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -30,6 +30,6 @@ setup(
     install_requires=[
         'requests[socks]',
         'geoip2',
-        'terminal-print',
+        'cli-print',
     ],
 )

@@ -4,7 +4,7 @@
 import os
 import requests
 import geoip2.database
-import terminal_print as tp
+import cli_print as cp
 
 
 # ip dict format
@@ -104,11 +104,11 @@ def requests_get_json(url: str, requests_proxies: dict = None, timeout: int = TI
         if 200 == resp.status_code:
             return resp.json()
         else:
-            tp.error('[ip-query] requests.status_code: {}'.format(resp.status_code))
+            cp.error('[ip-query] requests.status_code: {}'.format(resp.status_code))
             return None
 
     except Exception as e:
-        tp.error('[ip-query] {}'.format(e))
+        cp.error('[ip-query] {}'.format(e))
         return None
 
 
@@ -120,20 +120,20 @@ def geoip(ip_address):
     :param ip_address: ip
     :return: dict or None
     """
-    mmdb_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'mmdb')
+    script_dir = os.path.dirname(os.path.abspath(__file__))
 
     data = IP_DICT.copy()
     data['ip'] = ip_address
 
     try:
         # country
-        with geoip2.database.Reader(os.path.join(mmdb_dir, 'GeoLite2-Country.mmdb')) as reader:
+        with geoip2.database.Reader(os.path.join(script_dir, 'GeoLite2-Country.py')) as reader:
             resp = reader.country(ip_address)
             data['country'] = resp.country.name
             data['country_code'] = resp.country.iso_code
 
         # asn
-        with geoip2.database.Reader(os.path.join(mmdb_dir, 'GeoLite2-ASN.mmdb')) as reader:
+        with geoip2.database.Reader(os.path.join(script_dir, 'GeoLite2-ASN.py')) as reader:
             resp = reader.asn(ip_address)
             data['asn'] = resp.autonomous_system_number
             data['aso'] = resp.autonomous_system_organization
@@ -141,5 +141,5 @@ def geoip(ip_address):
         return data
 
     except Exception as e:
-        tp.error('[ip-query] geoip: {}'.format(e))
+        cp.error('[ip-query] geoip: {}'.format(e))
         return None
