@@ -104,11 +104,11 @@ def requests_get_json(url: str, requests_proxies: dict = None, timeout: int = TI
         if 200 == resp.status_code:
             return resp.json()
         else:
-            cp.error('[ip-query] requests.status_code: {}'.format(resp.status_code))
+            cp.error('[ip_query] requests.status_code: {}'.format(resp.status_code))
             return None
 
     except Exception as e:
-        cp.error('[ip-query] {}'.format(e))
+        cp.error('[ip_query] {}'.format(e))
         return None
 
 
@@ -141,5 +141,5 @@ def geoip(ip_address):
         return data
 
     except Exception as e:
-        cp.error('[ip-query] geoip: {}'.format(e))
+        cp.error('[ip_query] geoip: {}'.format(e))
         return None
