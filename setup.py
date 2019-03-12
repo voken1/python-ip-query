@@ -8,7 +8,7 @@ with open('README.md', 'r') as f:
 
 setup(
     name="ip-query",
-    version="4.1.1",
+    version="4.1.2",
     packages=find_packages(),
 
     # metadata for upload to PyPI

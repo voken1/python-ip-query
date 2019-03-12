@@ -50,8 +50,7 @@ ip = ip_query(
 
 We've chosen `GeoLite2 Country` and `GeoLite2 ASN` from [GeoLite2 Free Downloadable Databases](https://dev.maxmind.com/geoip/geoip2/geolite2/)..
 
-Latest Version: `20190122`.
+Latest Version: `20190312`.
 
 Many thanks to [MaxMind](https://github.com/MaxMind).
-
 

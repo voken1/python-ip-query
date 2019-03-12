@@ -6,7 +6,6 @@ import requests
 import geoip2.database
 import cli_print as cp
 
-
 # ip dict format
 IP_DICT = {
     'ip': None,
