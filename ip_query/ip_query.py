@@ -28,14 +28,17 @@ def ip_query(requests_proxies: dict = None, timeout: int = TIMEOUT, with_geo: bo
     :param with_geo: with Geo info?
     :return: dict or None
     """
-    ip = myip(requests_proxies=requests_proxies, timeout=timeout)
+    ip = ipsb(requests_proxies=requests_proxies, timeout=timeout)
+
+    if not ip:
+        ip = myip(requests_proxies=requests_proxies, timeout=timeout)
 
     if not ip:
         ip = ipify(requests_proxies=requests_proxies, timeout=timeout)
 
     if ip:
         # with GEO
-        if with_geo:
+        if with_geo and geo_missed(ip):
             data = geoip(ip['ip'])
             if data:
                 return data
@@ -44,6 +47,46 @@ def ip_query(requests_proxies: dict = None, timeout: int = TIMEOUT, with_geo: bo
         return ip
 
     # no ip
+    return None
+
+
+def geo_missed(ip: dict):
+    """
+    Return True, if missed any item of geo.
+
+    :param ip: ip dict
+    :return: bool
+    """
+    if ip['country'] is None:
+        return True
+    if ip['country_code'] is None:
+        return True
+    if ip['asn'] is None:
+        return True
+    if ip['aso'] is None:
+        return True
+    return False
+
+
+def ipsb(requests_proxies: dict = None, timeout: int = TIMEOUT):
+    """
+    https://api.ip.sb/geoip
+
+    :param requests_proxies: ...
+    :param timeout: ...
+    :return: dict or None
+    """
+    data = requests_get_json(url='https://api.ip.sb/geoip',
+                             requests_proxies=requests_proxies,
+                             timeout=timeout)
+    if data:
+        result = IP_DICT.copy()
+        result['ip'] = data['ip']
+        result['country'] = data['country']
+        result['country_code'] = data['country_code']
+        result['asn'] = data['asn']
+        result['aso'] = data['organization']
+        return result
     return None
 
 
@@ -111,28 +154,39 @@ def requests_get_json(url: str, requests_proxies: dict = None, timeout: int = TI
         return None
 
 
-def geoip(ip_address):
+def geoip(ip_address, country_mmdb: str = None, asn_mmdb: str = None):
     """
     GeoLite2
     https://dev.maxmind.com/geoip/geoip2/geolite2/
 
-    :param ip_address: ip
+    :param ip_address:
+    :param country_mmdb:
+    :param asn_mmdb:
     :return: dict or None
     """
-    script_dir = os.path.dirname(os.path.abspath(__file__))
 
     data = IP_DICT.copy()
     data['ip'] = ip_address
 
     try:
+        mmdb_dir = os.path.dirname(os.path.abspath(__file__))
+
         # country
-        with geoip2.database.Reader(os.path.join(script_dir, 'GeoLite2-Country.py')) as reader:
+        if country_mmdb and os.path.exists(country_mmdb):
+            path_to_country_mmdb = country_mmdb
+        else:
+            path_to_country_mmdb = os.path.join(mmdb_dir, 'GeoLite2-Country.py')
+        with geoip2.database.Reader(path_to_country_mmdb) as reader:
             resp = reader.country(ip_address)
             data['country'] = resp.country.name
             data['country_code'] = resp.country.iso_code
 
         # asn
-        with geoip2.database.Reader(os.path.join(script_dir, 'GeoLite2-ASN.py')) as reader:
+        if asn_mmdb and os.path.exists(asn_mmdb):
+            path_to_asn_mmdb = asn_mmdb
+        else:
+            path_to_asn_mmdb = os.path.join(mmdb_dir, 'GeoLite2-ASN.py')
+        with geoip2.database.Reader(path_to_asn_mmdb) as reader:
             resp = reader.asn(ip_address)
             data['asn'] = resp.autonomous_system_number
             data['aso'] = resp.autonomous_system_organization

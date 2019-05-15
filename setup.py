@@ -8,7 +8,7 @@ with open('README.md', 'r') as f:
 
 setup(
     name="ip-query",
-    version="4.1.3",
+    version="4.3.0",
     packages=find_packages(),
 
     # metadata for upload to PyPI
@@ -19,7 +19,7 @@ setup(
 
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/VisionNetworkProject/python-ip-query",
+    url="https://github.com/voken100g/python-ip-query",
 
     classifiers=[
         "Programming Language :: Python :: 3",
