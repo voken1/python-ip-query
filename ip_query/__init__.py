@@ -7,4 +7,4 @@ name = 'ip-query'
 
 # GeoLite2
 # https://dev.maxmind.com/geoip/geoip2/geolite2/
-geolite2_ver = '20190514'
+geolite2_ver = '20191008'
